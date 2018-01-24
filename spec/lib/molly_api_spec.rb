@@ -7,7 +7,13 @@ RSpec.describe MollyConnection do
   context "Incident" do
 
     let(:incident_params) { {
-      client_id: 'some-client-co-uk'
+      client_id: 'some-client-co-uk',
+      app_id: "test-server",
+      reporter_email: "reporter@molly.com",
+      reporter_name: "Molly Bulregard Server",
+      incident_type: "API misuse",
+      incident_description: "upsetting api use on an ongoing basis",
+      named_party_name: "Toons"
     } }
     let(:http_headers) {
       {
@@ -52,11 +58,21 @@ RSpec.describe MollyConnection do
     end
 
     context "creation fails" do
-      it "without a client_id" do
-        mc = new_molly_connection
-        incident_without_client_id = incident_params.delete(:client_id)
-        response = mc.create_incident(incident_without_client_id)
-        expect(response.code).to eq 400
+
+      [ :client_id,
+        :app_id,
+        :reporter_email,
+        :reporter_name,
+        :incident_type,
+        :incident_description,
+        :named_party_name ].each do |required_param|
+          it "without a #{required_param}" do
+            mc = new_molly_connection
+            incident_without_required_param = incident_params
+            incident_without_required_param.delete(required_param)
+            response = mc.create_incident(incident_without_required_param)
+            expect(response.code).to eq 400
+          end
       end
     end
   end
