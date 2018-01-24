@@ -1,5 +1,5 @@
 require 'unirest'
-require_relative '../lib/molly_connection'
+require_relative '../../lib/molly_connection'
 
 RSpec.describe MollyConnection do
 
