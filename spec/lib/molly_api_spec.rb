@@ -6,7 +6,9 @@ RSpec.describe MollyConnection do
 
   context "Incident" do
 
-    let(:incident_params) { {} }
+    let(:incident_params) { {
+      client_id: 'some-client-co-uk'
+    } }
     let(:http_headers) {
       {
         "Accept": "application/json",
@@ -50,13 +52,19 @@ RSpec.describe MollyConnection do
     end
 
     context "creation fails" do
-      it "without a client_id"
+      it "without a client_id" do
+        mc = new_molly_connection
+        incident_without_client_id = incident_params.delete(:client_id)
+        response = mc.create_incident(incident_without_client_id)
+        expect(response.code).to eq 400
+      end
     end
   end
 
   def new_molly_connection(params = {})
     MollyConnection.new({
       api_url: 'https://a84xihdz74.execute-api.eu-west-1.amazonaws.com/dev_toons/',
+ #     api_url: 'localhost:8000/',
       api_key: '4vhGo3h1Kd8cSNONCCCge1jXLIHuE53p8t7Hl9JG'
     }.merge(params))
   end

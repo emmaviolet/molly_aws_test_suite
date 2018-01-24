@@ -14,7 +14,7 @@ class MollyConnection
   end
 
   def create_incident(incident_params)
-    post_to_molly_api('incident', { user_id: "122353" })
+    post_to_molly_api('incident', incident_params)
   end
 
   def aws_url
@@ -33,7 +33,8 @@ class MollyConnection
 
   def post_to_molly_api(rest_method, params)
     Unirest.post @aws_url + rest_method,
-      headers: http_headers
+      headers: http_headers,
+      parameters: params.to_json
   end
 
   def get_from_molly_api(rest_method)
