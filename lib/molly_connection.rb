@@ -1,7 +1,6 @@
 require 'unirest'
 
 AWS_URL = 'https://a84xihdz74.execute-api.eu-west-1.amazonaws.com/dev_toons/'
-#AWS_URL = 'http://localhost:8002/'
 
 class MollyConnection
 
@@ -11,9 +10,8 @@ class MollyConnection
   }
   HTTP_HEADERS = {
     "Accept": "application/json",
-    "content-type": "application/json"
+    "Content-Type": "application/json"
   }
-
 
   def self.test_connection
     url_call(:test_connection)

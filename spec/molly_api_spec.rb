@@ -1,5 +1,5 @@
 require 'unirest'
-require_relative '../molly_connection'
+require_relative '../lib/molly_connection'
 
 RSpec.describe MollyConnection do
 
@@ -10,7 +10,7 @@ RSpec.describe MollyConnection do
 
     context "test connection" do
 
-      xit "should return working" do
+      it "should return working" do
         expect(MollyConnection.test_connection.body).to eq({"test" => "it's working"})
       end
     end
@@ -18,19 +18,17 @@ RSpec.describe MollyConnection do
 
     context "creation" do
 
-         it "should require client_id" do
-           expect(MollyConnection.create_incident({}).code).to eq(400)
-         end
+      it "should return a 200 response" do
+        expect(MollyConnection.create_incident({}).code).to eq(200)
+      end
 
-         xit "should return an incident object" do
-           expect(MollyConnection.create_incident(incident_params)).to be_a String
-         end
+      it "should return an incident object" do
+        incident = MollyConnection.create_incident(incident_params).body
+        expect(incident['incident_guid']).to be_a String
+      end
 
-         xit "should make a post request" do
-         end
-
-       end
-
+      it "should require client_id"
+      it "should make a post request"
     end
-
   end
+end
